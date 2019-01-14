@@ -49,7 +49,7 @@ installMaven() {
         echo "【Maven】正在解压apache-maven-3.6.0-bin到/usr/local/maven"
         tar -zxvf $maven -C ./env/
         mkdir /usr/local/maven
-        mv ./env/apache-maven-3.6.0/* /usr/local/apache-maven-3.6.0
+        mv ./env/apache-maven-3.6.0/* /usr/local/maven
         echo "【Maven】正在配置Maven全局环境变量"
         echo "export M2_HOME=/usr/local/maven" >> /etc/profile
         echo "export PATH=PATH=\$M2_HOME/bin:\$PATH" >> /etc/profile
@@ -65,7 +65,10 @@ installMongoDB() {
     if [ -f "$mongodb" ]
     then 
         echo "【MongoDB】正在解压mongodb-linux-x86_64-4.0.5到/usr/local/mongodb"
-        echo "【MongoDB】正在配置MongoDB全局环境变量"
+        tar -zxvf $mongodb -C ./env/
+        mkdir /usr/local/mongodb
+        mv ./env/mongodb-linux-x86_64-4.0.5/* /usr/local/mongodb
+        #echo "【MongoDB】正在配置MongoDB全局环境变量"
         echo "【MongoDB】MongoDB环境安装成功"
     else 
         echo "【MongoDB】不存在"
