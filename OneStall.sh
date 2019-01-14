@@ -11,8 +11,15 @@ installJdk() {
     echo "【Java】正在读取jdk-8u191-linux-x64安装包"
     if [ -f "$jdk" ]
     then
-        echo "【Java】正在解压jdk-8u191-linux-x64到/usr/share/jdk"
+        echo "【Java】正在解压jdk-8u191-linux-x64到/usr/local/jdk"
+        tar -zxvf $jdk -C ./env/
+        mkdir /usr/local/jdk
+        mv ./env/jdk1.8.0_191/* /usr/local/jdk
         echo "【Java】正在配置Java全局环境变量"
+        echo "export JAVA_HOME=/usr/local/jdk" >> /etc/profile
+        echo "export PATH=\$JAVA_HOME/bin:\$PATH" >> /etc/profile
+        echo "export CLASSPATH=.:\$JAVA_HOME/lib/dt.jar:\$JAVA_HOME/lib/tools.jar" >> /etc/profile
+        source /etc/profile
         echo "【Java】Java环境安装成功"
     else
         echo "【Java】JDK不存在"
