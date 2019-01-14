@@ -80,6 +80,9 @@ installZK() {
     if [ -f "$zk" ]
     then 
         echo "【ZooKeeper】正在解压zookeeper-3.4.13到/usr/local/zookeeper"
+        tar -zxvf $zk -C ./env/
+        mkdir /usr/local/zookeeper
+        mv ./env/zookeeper-3.4.13/* /usr/local/zookeeper
         echo "【ZooKeeper】正在配置ZooKeeper全局环境变量"
         echo "【ZooKeeper】ZooKeeper环境安装成功"
     else 
