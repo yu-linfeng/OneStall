@@ -47,7 +47,13 @@ installMaven() {
     if [ -f "$maven" ]
     then 
         echo "【Maven】正在解压apache-maven-3.6.0-bin到/usr/local/maven"
+        tar -zxvf $maven -C ./env/
+        mkdir /usr/local/maven
+        mv ./env/apache-maven-3.6.0/* /usr/local/apache-maven-3.6.0
         echo "【Maven】正在配置Maven全局环境变量"
+        echo "export M2_HOME=/usr/local/maven" >> /etc/profile
+        echo "export PATH=PATH=\$M2_HOME/bin:\$PATH" >> /etc/profile
+        source /etc/profile
         echo "【Maven】Maven环境安装成功"
     else 
         echo "【Maven】不存在"
