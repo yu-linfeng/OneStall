@@ -95,6 +95,9 @@ installNode() {
     if [ -f "$node" ]
     then 
         echo "【Node】正在解压node-v10.15.0-linux-x64到/usr/local/zookeeper"
+        tar -zxvf $node -C ./env/
+        mkdir /usr/local/node
+        mv ./env/node-v10.15.0-linux-x64/* /usr/local/node
         echo "【Node】正在配置Node全局环境变量"
         echo "【Node】Node环境安装成功"
     else 
