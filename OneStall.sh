@@ -32,7 +32,10 @@ installTomcat() {
     if [ -f "$tomcat" ]
     then 
         echo "【Tomcat】正在解压apache-tomcat-8.5.37到/usr/local/tomcat"
-        echo "【Tomcat】正在配置Tomcat全局环境变量"
+        tar -zxvf $tomcat -C ./env/
+        mkdir /usr/local/tomcat
+        mv ./env/apache-tomcat-8.5.37/* /usr/local/tomcat
+        #echo "【Tomcat】正在配置Tomcat全局环境变量"
         echo "【Tomcat】Tomcat环境安装成功"
     else 
         echo "【Tomcat】不存在"
