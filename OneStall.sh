@@ -19,7 +19,6 @@ installJdk() {
         echo "export JAVA_HOME=/usr/local/jdk" >> /etc/profile
         echo "export PATH=\$JAVA_HOME/bin:\$PATH" >> /etc/profile
         echo "export CLASSPATH=.:\$JAVA_HOME/lib/dt.jar:\$JAVA_HOME/lib/tools.jar" >> /etc/profile
-        source /etc/profile
         echo "【Java】Java环境安装成功"
     else
         echo "【Java】JDK不存在"
@@ -35,8 +34,11 @@ installTomcat() {
         tar -zxvf $tomcat -C ./env/
         mkdir /usr/local/tomcat
         mv ./env/apache-tomcat-8.5.37/* /usr/local/tomcat
-        #echo "【Tomcat】正在配置Tomcat全局环境变量"
-        echo "【Tomcat】Tomcat环境安装成功"
+        echo "【Tomcat】正在开启防火墙并打开Tomcat默认端口：8080"
+        systemctl start firewalld.service   #开启防火墙
+        firewall-cmd --zone=public --add-port=8080/tcp --permanent  #开启8080端口
+        firewall-cmd --reload
+        echo "【Tomcat】Tomcat默认端口：8080开启成功"
     else 
         echo "【Tomcat】不存在"
     fi
@@ -52,8 +54,7 @@ installMaven() {
         mv ./env/apache-maven-3.6.0/* /usr/local/maven
         echo "【Maven】正在配置Maven全局环境变量"
         echo "export M2_HOME=/usr/local/maven" >> /etc/profile
-        echo "export PATH=PATH=\$M2_HOME/bin:\$PATH" >> /etc/profile
-        source /etc/profile
+        echo "export PATH=\$M2_HOME/bin:\$PATH" >> /etc/profile
         echo "【Maven】Maven环境安装成功"
     else 
         echo "【Maven】不存在"
@@ -68,7 +69,6 @@ installMongoDB() {
         tar -zxvf $mongodb -C ./env/
         mkdir /usr/local/mongodb
         mv ./env/mongodb-linux-x86_64-4.0.5/* /usr/local/mongodb
-        #echo "【MongoDB】正在配置MongoDB全局环境变量"
         echo "【MongoDB】MongoDB环境安装成功"
     else 
         echo "【MongoDB】不存在"
@@ -83,8 +83,11 @@ installZK() {
         tar -zxvf $zk -C ./env/
         mkdir /usr/local/zookeeper
         mv ./env/zookeeper-3.4.13/* /usr/local/zookeeper
-        echo "【ZooKeeper】正在配置ZooKeeper全局环境变量"
-        echo "【ZooKeeper】ZooKeeper环境安装成功"
+        echo "【ZooKeeper】正在开启防火墙并打开ZooKeeper端口：2181"
+        systemctl start firewalld.service   #开启防火墙
+        firewall-cmd --zone=public --add-port=2181/tcp --permanent  #开启8080端口
+        firewall-cmd --reload
+        echo "【ZooKeeper】ZooKeeper端口：2181开启成功"
     else 
         echo "【ZooKeeper】不存在"
     fi
@@ -99,6 +102,8 @@ installNode() {
         mkdir /usr/local/node
         mv ./env/node-v10.15.0-linux-x64/* /usr/local/node
         echo "【Node】正在配置Node全局环境变量"
+        echo "export NODE_HOME=/usr/local/node" >> /etc/profile
+        echo "export PATH=\$NODE_HOME/bin:\$PATH" >> /etc/profile
         echo "【Node】Node环境安装成功"
     else 
         echo "【Node】不存在"
@@ -126,4 +131,4 @@ then
 else
     echo "部分安装"
 fi
-
+echo "安装成功！请输入“source /etc/profile”命令刷新配置！并请详细阅读config.md文件查看如何配置相关配置文件！"
