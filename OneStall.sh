@@ -69,7 +69,11 @@ installMongoDB() {
         tar -zxvf $mongodb -C ./env/
         mkdir /usr/local/mongodb
         mv ./env/mongodb-linux-x86_64-4.0.5/* /usr/local/mongodb
-        echo "【MongoDB】MongoDB环境安装成功"
+        echo "【MongoDB】正在开启防火墙并打开ZooKeeper端口：2181"
+        systemctl start firewalld.service   #开启防火墙
+        firewall-cmd --zone=public --add-port=27017/tcp --permanent  #开启8080端口
+        firewall-cmd --reload
+        echo "【MongoDB】MongoDB端口：27017开启成功"
     else 
         echo "【MongoDB】不存在"
     fi    
